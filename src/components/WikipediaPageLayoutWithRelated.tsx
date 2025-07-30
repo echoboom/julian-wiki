@@ -111,6 +111,15 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
     } else {
       root.style.colorScheme = 'light';
     }
+    
+    // Debug background colors
+    setTimeout(() => {
+      const body = document.body;
+      console.log('Theme:', theme);
+      console.log('Root classes:', root.className);
+      console.log('Body computed background:', window.getComputedStyle(body).backgroundColor);
+      console.log('Body computed color:', window.getComputedStyle(body).color);
+    }, 100);
   }, [theme]);
 
   return (

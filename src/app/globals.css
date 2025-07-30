@@ -5,9 +5,13 @@
   --font-mono: var(--font-geist-mono);
 }
 
+html {
+  @apply bg-white dark:bg-gray-900;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
-  /* Remove the custom properties that were overriding Tailwind dark mode */
+  @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100;
 }
 
 /* Wikipedia-style chapter headings */
