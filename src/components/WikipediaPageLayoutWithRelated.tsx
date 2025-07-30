@@ -133,13 +133,13 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
           <div className="flex items-center space-x-6">
             <Link href="/" className="flex items-center space-x-2">
               <Globe className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-              <span className="text-lg font-semibold text-gray-900 dark:text-white">Julian.wiki</span>
+              <span className={`text-lg font-semibold ${theme === 'dark' ? 'text-white' : theme === 'light' ? 'text-gray-900' : 'text-gray-900 dark:text-white'}`}>Julian.wiki</span>
             </Link>
             <nav className="hidden md:flex items-center space-x-4 text-sm">
-              <Link href="/projects" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+              <Link href="/projects" className={`${theme === 'dark' ? 'text-gray-300' : theme === 'light' ? 'text-gray-900' : 'text-gray-600 dark:text-gray-300'} hover:text-blue-600 dark:hover:text-blue-400`}>
                 Projects
               </Link>
-              <Link href="/contact" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+              <Link href="/contact" className={`${theme === 'dark' ? 'text-gray-300' : theme === 'light' ? 'text-gray-900' : 'text-gray-600 dark:text-gray-300'} hover:text-blue-600 dark:hover:text-blue-400`}>
                 Contact
               </Link>
             </nav>
@@ -151,7 +151,7 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
               <input
                 type="text"
                 placeholder="Search..."
-                className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className={`pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg ${theme === 'dark' ? 'bg-gray-800' : theme === 'light' ? 'bg-white' : 'bg-white dark:bg-gray-800'} ${theme === 'dark' ? 'text-white' : theme === 'light' ? 'text-gray-900' : 'text-gray-900 dark:text-white'} focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
               />
             </div>
           </div>
@@ -180,7 +180,7 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
                         }
                         setExpandedSections(newExpanded);
                       }}
-                      className="flex items-center justify-between w-full text-left font-medium text-gray-900 dark:text-white"
+                      className={`flex items-center justify-between w-full text-left font-bold ${theme === 'dark' ? 'text-white' : theme === 'light' ? 'text-gray-900' : 'text-gray-900 dark:text-white'}`}
                     >
                       <span>Contents</span>
                       {expandedSections.has('contents') ? 
@@ -239,7 +239,7 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
                       className={`py-2 px-1 border-b-2 font-medium text-sm capitalize ${
                         activeTab === tab
                           ? 'border-blue-500 text-blue-600 dark:text-blue-400'
-                          : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:border-gray-300'
+                          : `border-transparent ${theme === 'dark' ? 'text-gray-400 hover:text-gray-200' : theme === 'light' ? 'text-gray-900 hover:text-gray-700' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'} hover:border-gray-300`
                       }`}
                     >
                       {tab}
@@ -339,11 +339,11 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
           <div className="p-4 sticky top-20">
             <div className="space-y-4">
               <div>
-                <h3 className="font-medium text-gray-900 dark:text-white mb-3">Appearance</h3>
+                <h3 className={`font-bold ${theme === 'dark' ? 'text-white' : theme === 'light' ? 'text-gray-900' : 'text-gray-900 dark:text-white'} mb-3`}>Appearance</h3>
                 
                 {/* Text Size */}
                 <div className="mb-4">
-                  <div className="text-sm text-gray-700 dark:text-gray-300 mb-2">Text</div>
+                  <div className={`text-sm ${theme === 'dark' ? 'text-gray-300' : theme === 'light' ? 'text-gray-900' : 'text-gray-700 dark:text-gray-300'} mb-2`}>Text</div>
                   <div className="space-y-1">
                     <label className="flex items-center">
                       <input
@@ -354,7 +354,7 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
                         onChange={() => setTextSize('small')}
                         className="mr-2"
                       />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">Small</span>
+                      <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : theme === 'light' ? 'text-gray-900' : 'text-gray-700 dark:text-gray-300'}`}>Small</span>
                     </label>
                     <label className="flex items-center">
                       <input
@@ -365,7 +365,7 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
                         onChange={() => setTextSize('standard')}
                         className="mr-2"
                       />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">Standard</span>
+                      <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : theme === 'light' ? 'text-gray-900' : 'text-gray-700 dark:text-gray-300'}`}>Standard</span>
                     </label>
                     <label className="flex items-center">
                       <input
@@ -376,7 +376,7 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
                         onChange={() => setTextSize('large')}
                         className="mr-2"
                       />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">Large</span>
+                      <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : theme === 'light' ? 'text-gray-900' : 'text-gray-700 dark:text-gray-300'}`}>Large</span>
                     </label>
                   </div>
                 </div>
@@ -394,7 +394,7 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
                         onChange={() => setWidth('standard')}
                         className="mr-2"
                       />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">Standard</span>
+                      <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : theme === 'light' ? 'text-gray-900' : 'text-gray-700 dark:text-gray-300'}`}>Standard</span>
                     </label>
                     <label className="flex items-center">
                       <input
@@ -405,7 +405,7 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
                         onChange={() => setWidth('wide')}
                         className="mr-2"
                       />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">Wide</span>
+                      <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : theme === 'light' ? 'text-gray-900' : 'text-gray-700 dark:text-gray-300'}`}>Wide</span>
                     </label>
                   </div>
                 </div>
@@ -423,7 +423,7 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
                         onChange={() => setTheme('auto')}
                         className="mr-2"
                       />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">Automatic</span>
+                      <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : theme === 'light' ? 'text-gray-900' : 'text-gray-700 dark:text-gray-300'}`}>Automatic</span>
                     </label>
                     <label className="flex items-center">
                       <input
@@ -434,7 +434,7 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
                         onChange={() => setTheme('light')}
                         className="mr-2"
                       />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">Light</span>
+                      <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : theme === 'light' ? 'text-gray-900' : 'text-gray-700 dark:text-gray-300'}`}>Light</span>
                     </label>
                     <label className="flex items-center">
                       <input
@@ -445,7 +445,7 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
                         onChange={() => setTheme('dark')}
                         className="mr-2"
                       />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">Dark</span>
+                      <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : theme === 'light' ? 'text-gray-900' : 'text-gray-700 dark:text-gray-300'}`}>Dark</span>
                     </label>
                   </div>
                 </div>

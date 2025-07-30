@@ -18,15 +18,22 @@ body.dark {
 
 /* Wikipedia-style chapter headings */
 .prose h2 {
-  @apply font-serif text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4;
+  @apply font-serif text-2xl font-bold mt-8 mb-4;
+  color: #111827; /* gray-900 */
   border-bottom: 1px solid #a2a9b1;
   padding-bottom: 0.25rem;
 }
 
-.dark .prose h2 {
+body.dark .prose h2 {
+  color: #f3f4f6; /* gray-50 */
   border-bottom-color: #54626f;
 }
 
 .prose h3 {
-  @apply font-serif text-xl font-bold text-gray-900 dark:text-white mt-6 mb-3;
+  @apply font-serif text-xl font-bold mt-6 mb-3;
+  color: #111827; /* gray-900 */
+}
+
+body.dark .prose h3 {
+  color: #f3f4f6; /* gray-50 */
 }
