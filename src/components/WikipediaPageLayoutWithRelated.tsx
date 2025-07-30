@@ -47,6 +47,8 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
     const savedTextSize = localStorage.getItem('wiki-text-size') as TextSize;
     const savedWidth = localStorage.getItem('wiki-width') as Width;
     
+    console.log('Loading from localStorage:', { savedTheme, savedTextSize, savedWidth }); // Debug log
+    
     if (savedTheme) setTheme(savedTheme);
     if (savedTextSize) setTextSize(savedTextSize);
     if (savedWidth) setWidth(savedWidth);
@@ -68,12 +70,16 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
   // Theme handling
   useEffect(() => {
     const root = document.documentElement;
+    console.log('Theme changed to:', theme); // Debug log
+    
     if (theme === 'auto') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       const applyTheme = () => {
         if (mediaQuery.matches) {
+          console.log('Auto theme: applying dark'); // Debug log
           root.classList.add('dark');
         } else {
+          console.log('Auto theme: applying light'); // Debug log
           root.classList.remove('dark');
         }
       };
@@ -82,8 +88,10 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
       return () => mediaQuery.removeEventListener('change', applyTheme);
     } else {
       if (theme === 'dark') {
+        console.log('Manual theme: applying dark'); // Debug log
         root.classList.add('dark');
       } else {
+        console.log('Manual theme: applying light'); // Debug log
         root.classList.remove('dark');
       }
     }
@@ -125,106 +133,124 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
         </div>
       </header>
       
-      {/* Right Sidebar - Wikipedia-style Controls */}
-      <div className="fixed top-20 right-4 z-40 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 shadow-sm p-3 w-44 text-xs">
-        {/* Text Section */}
-        <div className="mb-4">
-          <div className="text-gray-700 dark:text-gray-300 font-normal mb-1.5">Text</div>
-          <div className="flex gap-1">
-            <button
-              onClick={() => setTextSize('small')}
-              className={`px-1.5 py-0.5 text-xs border ${
-                textSize === 'small' 
-                  ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-300' 
-                  : 'bg-white border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:text-gray-300'
-              }`}
-            >
-              A
-            </button>
-            <button
-              onClick={() => setTextSize('standard')}
-              className={`px-1.5 py-0.5 text-xs border ${
-                textSize === 'standard' 
-                  ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-300' 
-                  : 'bg-white border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:text-gray-300'
-              }`}
-            >
-              A
-            </button>
-            <button
-              onClick={() => setTextSize('large')}
-              className={`px-1.5 py-0.5 text-sm border ${
-                textSize === 'large' 
-                  ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-300' 
-                  : 'bg-white border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:text-gray-300'
-              }`}
-            >
-              A
-            </button>
-          </div>
-        </div>
+      {/* Right Sidebar - Wikipedia-style Appearance Controls */}
+      <div className="fixed top-20 right-4 z-40 w-48">
+        <div className="bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700">
+          <div className="p-4 sticky top-20">
+            <div className="space-y-4">
+              <div>
+                <h3 className="font-medium text-gray-900 dark:text-white mb-3">Appearance</h3>
+                
+                {/* Text Size */}
+                <div className="mb-4">
+                  <div className="text-sm text-gray-700 dark:text-gray-300 mb-2">Text</div>
+                  <div className="space-y-1">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="textSize"
+                        value="small"
+                        checked={textSize === 'small'}
+                        onChange={() => setTextSize('small')}
+                        className="mr-2"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Small</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="textSize"
+                        value="standard"
+                        checked={textSize === 'standard'}
+                        onChange={() => setTextSize('standard')}
+                        className="mr-2"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Standard</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="textSize"
+                        value="large"
+                        checked={textSize === 'large'}
+                        onChange={() => setTextSize('large')}
+                        className="mr-2"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Large</span>
+                    </label>
+                  </div>
+                </div>
 
-        {/* Width Section */}
-        <div className="mb-4">
-          <div className="text-gray-700 dark:text-gray-300 font-normal mb-1.5">Width</div>
-          <div className="flex gap-1">
-            <button
-              onClick={() => setWidth('standard')}
-              className={`px-2 py-0.5 text-xs border ${
-                width === 'standard' 
-                  ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-300' 
-                  : 'bg-white border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:text-gray-300'
-              }`}
-            >
-              Standard
-            </button>
-            <button
-              onClick={() => setWidth('wide')}
-              className={`px-2 py-0.5 text-xs border ${
-                width === 'wide' 
-                  ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-300' 
-                  : 'bg-white border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:text-gray-300'
-              }`}
-            >
-              Wide
-            </button>
-          </div>
-        </div>
+                {/* Width */}
+                <div className="mb-4">
+                  <div className="text-sm text-gray-700 dark:text-gray-300 mb-2">Width</div>
+                  <div className="space-y-1">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="width"
+                        value="standard"
+                        checked={width === 'standard'}
+                        onChange={() => setWidth('standard')}
+                        className="mr-2"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Standard</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="width"
+                        value="wide"
+                        checked={width === 'wide'}
+                        onChange={() => setWidth('wide')}
+                        className="mr-2"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Wide</span>
+                    </label>
+                  </div>
+                </div>
 
-        {/* Color Section */}
-        <div>
-          <div className="text-gray-700 dark:text-gray-300 font-normal mb-1.5">Color (automated)</div>
-          <div className="flex gap-1">
-            <button
-              onClick={() => setTheme('auto')}
-              className={`px-2 py-0.5 text-xs border ${
-                theme === 'auto' 
-                  ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-300' 
-                  : 'bg-white border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:text-gray-300'
-              }`}
-            >
-              Auto
-            </button>
-            <button
-              onClick={() => setTheme('light')}
-              className={`px-2 py-0.5 text-xs border ${
-                theme === 'light' 
-                  ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-300' 
-                  : 'bg-white border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:text-gray-300'
-              }`}
-            >
-              Light
-            </button>
-            <button
-              onClick={() => setTheme('dark')}
-              className={`px-2 py-0.5 text-xs border ${
-                theme === 'dark' 
-                  ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-300' 
-                  : 'bg-white border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:text-gray-300'
-              }`}
-            >
-              Dark
-            </button>
+                {/* Color (beta) */}
+                <div>
+                  <div className="text-sm text-gray-700 dark:text-gray-300 mb-2">Color (beta)</div>
+                  <div className="space-y-1">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="theme"
+                        value="auto"
+                        checked={theme === 'auto'}
+                        onChange={() => setTheme('auto')}
+                        className="mr-2"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Automatic</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="theme"
+                        value="light"
+                        checked={theme === 'light'}
+                        onChange={() => setTheme('light')}
+                        className="mr-2"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Light</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="theme"
+                        value="dark"
+                        checked={theme === 'dark'}
+                        onChange={() => setTheme('dark')}
+                        className="mr-2"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Dark</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
