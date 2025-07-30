@@ -33,7 +33,7 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
   relatedPages = []
 }) => {
   // User preferences state
-  const [theme, setTheme] = useState<Theme>('auto');
+  const [theme, setTheme] = useState<Theme>('light');
   const [textSize, setTextSize] = useState<TextSize>('standard');
   const [width, setWidth] = useState<Width>('standard');
   const [activeTab, setActiveTab] = useState<ActiveTab>('article');
@@ -46,7 +46,8 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
     const savedTextSize = localStorage.getItem('wiki-text-size') as TextSize;
     const savedWidth = localStorage.getItem('wiki-width') as Width;
     
-    if (savedTheme) setTheme(savedTheme);
+    // If no saved theme, default to light
+    setTheme(savedTheme || 'light');
     if (savedTextSize) setTextSize(savedTextSize);
     if (savedWidth) setWidth(savedWidth);
   }, []);
@@ -68,16 +69,15 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
   useEffect(() => {
     const root = document.documentElement;
     
-    // Clear any existing theme classes first
+    // Always clear any existing theme classes first
     root.classList.remove('dark');
     
     if (theme === 'auto') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       const applyTheme = () => {
+        root.classList.remove('dark'); // Clear first
         if (mediaQuery.matches) {
           root.classList.add('dark');
-        } else {
-          root.classList.remove('dark');
         }
       };
       applyTheme();
@@ -86,7 +86,10 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
     } else if (theme === 'dark') {
       root.classList.add('dark');
     }
-    // For 'light' theme, we just leave the dark class removed
+    // For 'light' theme, dark class stays removed
+    
+    // Force a style recalculation
+    root.style.colorScheme = theme === 'dark' ? 'dark' : 'light';
   }, [theme]);
 
   return (
@@ -125,128 +128,6 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
         </div>
       </header>
       
-      {/* Right Sidebar - Wikipedia-style Appearance Controls */}
-      <div className="fixed top-20 right-4 z-40 w-48">
-        <div className="bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700">
-          <div className="p-4 sticky top-20">
-            <div className="space-y-4">
-              <div>
-                <h3 className="font-medium text-gray-900 dark:text-white mb-3">Appearance</h3>
-                
-                {/* Text Size */}
-                <div className="mb-4">
-                  <div className="text-sm text-gray-700 dark:text-gray-300 mb-2">Text</div>
-                  <div className="space-y-1">
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="textSize"
-                        value="small"
-                        checked={textSize === 'small'}
-                        onChange={() => setTextSize('small')}
-                        className="mr-2"
-                      />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">Small</span>
-                    </label>
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="textSize"
-                        value="standard"
-                        checked={textSize === 'standard'}
-                        onChange={() => setTextSize('standard')}
-                        className="mr-2"
-                      />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">Standard</span>
-                    </label>
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="textSize"
-                        value="large"
-                        checked={textSize === 'large'}
-                        onChange={() => setTextSize('large')}
-                        className="mr-2"
-                      />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">Large</span>
-                    </label>
-                  </div>
-                </div>
-
-                {/* Width */}
-                <div className="mb-4">
-                  <div className="text-sm text-gray-700 dark:text-gray-300 mb-2">Width</div>
-                  <div className="space-y-1">
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="width"
-                        value="standard"
-                        checked={width === 'standard'}
-                        onChange={() => setWidth('standard')}
-                        className="mr-2"
-                      />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">Standard</span>
-                    </label>
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="width"
-                        value="wide"
-                        checked={width === 'wide'}
-                        onChange={() => setWidth('wide')}
-                        className="mr-2"
-                      />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">Wide</span>
-                    </label>
-                  </div>
-                </div>
-
-                {/* Color (beta) */}
-                <div>
-                  <div className="text-sm text-gray-700 dark:text-gray-300 mb-2">Color (beta)</div>
-                  <div className="space-y-1">
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="theme"
-                        value="auto"
-                        checked={theme === 'auto'}
-                        onChange={() => setTheme('auto')}
-                        className="mr-2"
-                      />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">Automatic</span>
-                    </label>
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="theme"
-                        value="light"
-                        checked={theme === 'light'}
-                        onChange={() => setTheme('light')}
-                        className="mr-2"
-                      />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">Light</span>
-                    </label>
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="theme"
-                        value="dark"
-                        checked={theme === 'dark'}
-                        onChange={() => setTheme('dark')}
-                        className="mr-2"
-                      />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">Dark</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div className="flex">
         {/* Sidebar */}
         {!sidebarCollapsed && (
@@ -422,6 +303,126 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
             )}
           </div>
         </main>
+
+        {/* Right Sidebar - Wikipedia-style Appearance Controls */}
+        <aside className="w-48 bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-700 min-h-screen">
+          <div className="p-4 sticky top-20">
+            <div className="space-y-4">
+              <div>
+                <h3 className="font-medium text-gray-900 dark:text-white mb-3">Appearance</h3>
+                
+                {/* Text Size */}
+                <div className="mb-4">
+                  <div className="text-sm text-gray-700 dark:text-gray-300 mb-2">Text</div>
+                  <div className="space-y-1">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="textSize"
+                        value="small"
+                        checked={textSize === 'small'}
+                        onChange={() => setTextSize('small')}
+                        className="mr-2"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Small</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="textSize"
+                        value="standard"
+                        checked={textSize === 'standard'}
+                        onChange={() => setTextSize('standard')}
+                        className="mr-2"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Standard</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="textSize"
+                        value="large"
+                        checked={textSize === 'large'}
+                        onChange={() => setTextSize('large')}
+                        className="mr-2"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Large</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Width */}
+                <div className="mb-4">
+                  <div className="text-sm text-gray-700 dark:text-gray-300 mb-2">Width</div>
+                  <div className="space-y-1">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="width"
+                        value="standard"
+                        checked={width === 'standard'}
+                        onChange={() => setWidth('standard')}
+                        className="mr-2"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Standard</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="width"
+                        value="wide"
+                        checked={width === 'wide'}
+                        onChange={() => setWidth('wide')}
+                        className="mr-2"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Wide</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Color (beta) */}
+                <div>
+                  <div className="text-sm text-gray-700 dark:text-gray-300 mb-2">Color (beta)</div>
+                  <div className="space-y-1">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="theme"
+                        value="auto"
+                        checked={theme === 'auto'}
+                        onChange={() => setTheme('auto')}
+                        className="mr-2"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Automatic</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="theme"
+                        value="light"
+                        checked={theme === 'light'}
+                        onChange={() => setTheme('light')}
+                        className="mr-2"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Light</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="theme"
+                        value="dark"
+                        checked={theme === 'dark'}
+                        onChange={() => setTheme('dark')}
+                        className="mr-2"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Dark</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
       </div>
     </div>
   );
