@@ -1,5 +1,6 @@
 import WikipediaPageLayoutWithRelated from '@/components/WikipediaPageLayoutWithRelated';
 import MDXProvider from '@/components/MDXProvider';
+import ThemeInfobox from '@/components/ThemeInfobox';
 import { getContentBySlug, generateTableOfContents, getRelatedContent } from '@/lib/content';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { notFound } from 'next/navigation';
@@ -14,11 +15,17 @@ export default function Home() {
   const tableOfContents = generateTableOfContents(content.content);
   const relatedContent = getRelatedContent(content.metadata.tags || [], 'julian-picaza');
 
+  // MDX components for MDXRemote
+  const mdxComponents = {
+    ThemeInfobox: ThemeInfobox,
+    // Add other components as needed
+  };
+
   return (
     <MDXProvider>
       <WikipediaPageLayoutWithRelated
         title={content.metadata.title}
-        content={<MDXRemote source={content.content} />}
+        content={<MDXRemote source={content.content} components={mdxComponents} />}
         categories={content.metadata.categories}
         metadata={{
           tags: content.metadata.tags,
