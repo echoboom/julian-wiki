@@ -88,8 +88,6 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
   useEffect(() => {
     const root = document.documentElement;
     
-    console.log('Applying theme:', theme); // Debug log
-    
     // Always start fresh
     root.classList.remove('dark');
     
@@ -98,11 +96,9 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
       const applyTheme = () => {
         root.classList.remove('dark');
         if (mediaQuery.matches) {
-          console.log('Auto: system is dark, applying dark theme');
           root.classList.add('dark');
           root.style.colorScheme = 'dark';
         } else {
-          console.log('Auto: system is light, applying light theme');
           root.style.colorScheme = 'light';
         }
       };
@@ -110,11 +106,9 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
       mediaQuery.addEventListener('change', applyTheme);
       return () => mediaQuery.removeEventListener('change', applyTheme);
     } else if (theme === 'dark') {
-      console.log('Manual: applying dark theme');
       root.classList.add('dark');
       root.style.colorScheme = 'dark';
     } else {
-      console.log('Manual: applying light theme');
       root.style.colorScheme = 'light';
     }
   }, [theme]);
