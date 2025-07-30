@@ -121,83 +121,92 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
                 className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
-            
-            {/* Theme selector */}
-            <div className="relative">
-              <button
-                onClick={() => setContextDropdownOpen(!contextDropdownOpen)}
-                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
-              >
-                {theme === 'light' ? <Sun className="w-5 h-5" /> : 
-                 theme === 'dark' ? <Moon className="w-5 h-5" /> : 
-                 <Monitor className="w-5 h-5" />}
-              </button>
-              
-              {contextDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
-                  <div className="p-2">
-                    <button
-                      onClick={() => { setTheme('light'); setContextDropdownOpen(false); }}
-                      className="w-full flex items-center space-x-2 px-3 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                    >
-                      <Sun className="w-4 h-4" />
-                      <span>Light</span>
-                    </button>
-                    <button
-                      onClick={() => { setTheme('dark'); setContextDropdownOpen(false); }}
-                      className="w-full flex items-center space-x-2 px-3 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                    >
-                      <Moon className="w-4 h-4" />
-                      <span>Dark</span>
-                    </button>
-                    <button
-                      onClick={() => { setTheme('auto'); setContextDropdownOpen(false); }}
-                      className="w-full flex items-center space-x-2 px-3 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                    >
-                      <Monitor className="w-4 h-4" />
-                      <span>Auto</span>
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Text size controls */}
-            <div className="flex items-center space-x-1">
-              <button
-                onClick={() => setTextSize('small')}
-                className={`px-2 py-1 text-xs rounded ${textSize === 'small' ? 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
-              >
-                A
-              </button>
-              <button
-                onClick={() => setTextSize('standard')}
-                className={`px-2 py-1 text-sm rounded ${textSize === 'standard' ? 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
-              >
-                A
-              </button>
-              <button
-                onClick={() => setTextSize('large')}
-                className={`px-2 py-1 text-base rounded ${textSize === 'large' ? 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
-              >
-                A
-              </button>
-            </div>
-
-            {/* Width toggle */}
-            <button
-              onClick={() => setWidth(width === 'standard' ? 'wide' : 'standard')}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
-              title={`Switch to ${width === 'standard' ? 'wide' : 'standard'} width`}
-            >
-              {width === 'standard' ? 
-                <Maximize2 className="w-5 h-5" /> : 
-                <Minimize2 className="w-5 h-5" />
-              }
-            </button>
           </div>
         </div>
       </header>
+      
+      {/* Right Sidebar - Wikipedia-style Controls */}
+      <div className="fixed top-20 right-4 z-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4 w-48">
+        <div className="space-y-4">
+          {/* Theme Control */}
+          <div>
+            <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Appearance
+            </label>
+            <div className="flex items-center space-x-1">
+              <button
+                onClick={() => setTheme('light')}
+                className={`p-1.5 rounded ${theme === 'light' ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+                title="Light mode"
+              >
+                <Sun className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setTheme('auto')}
+                className={`p-1.5 rounded ${theme === 'auto' ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+                title="Automatic (system)"
+              >
+                <Monitor className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setTheme('dark')}
+                className={`p-1.5 rounded ${theme === 'dark' ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+                title="Dark mode"
+              >
+                <Moon className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* Text Size Control */}
+          <div>
+            <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Text size
+            </label>
+            <div className="flex items-center space-x-1">
+              <button
+                onClick={() => setTextSize('small')}
+                className={`px-2 py-1 text-xs rounded ${textSize === 'small' ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+              >
+                Small
+              </button>
+              <button
+                onClick={() => setTextSize('standard')}
+                className={`px-2 py-1 text-xs rounded ${textSize === 'standard' ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+              >
+                Standard
+              </button>
+              <button
+                onClick={() => setTextSize('large')}
+                className={`px-2 py-1 text-xs rounded ${textSize === 'large' ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+              >
+                Large
+              </button>
+            </div>
+          </div>
+
+          {/* Width Control */}
+          <div>
+            <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Width
+            </label>
+            <div className="flex items-center space-x-1">
+              <button
+                onClick={() => setWidth('standard')}
+                className={`px-2 py-1 text-xs rounded ${width === 'standard' ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+              >
+                Standard
+              </button>
+              <button
+                onClick={() => setWidth('wide')}
+                className={`px-2 py-1 text-xs rounded ${width === 'wide' ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+              >
+                Wide
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className="flex">
         {/* Sidebar */}
@@ -206,7 +215,7 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
             textSize === 'small' ? 'text-sm' : 
             textSize === 'large' ? 'text-lg' : 'text-base'
           }`}>
-            <div className="p-4">
+            <div className="p-4 sticky top-20">
               <div className="space-y-4">
                 {/* Table of Contents */}
                 {tableOfContents.length > 0 && (
