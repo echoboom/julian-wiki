@@ -383,7 +383,7 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
 
                 {/* Width */}
                 <div className="mb-4">
-                  <div className="text-sm text-gray-700 dark:text-gray-300 mb-2">Width</div>
+                  <div className={`text-sm ${theme === 'dark' ? 'text-gray-300' : theme === 'light' ? 'text-gray-900' : 'text-gray-700 dark:text-gray-300'} mb-2`}>Width</div>
                   <div className="space-y-1">
                     <label className="flex items-center">
                       <input
@@ -412,7 +412,7 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
 
                 {/* Color (beta) */}
                 <div>
-                  <div className="text-sm text-gray-700 dark:text-gray-300 mb-2">Color (beta)</div>
+                  <div className={`text-sm ${theme === 'dark' ? 'text-gray-300' : theme === 'light' ? 'text-gray-900' : 'text-gray-700 dark:text-gray-300'} mb-2`}>Color (beta)</div>
                   <div className="space-y-1">
                     <label className="flex items-center">
                       <input
