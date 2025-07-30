@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, ReactNode } from 'react';
-import { Search, Menu, Globe, ChevronDown, ChevronRight, Sun, Moon, Monitor, Maximize2, Minimize2 } from 'lucide-react';
+import { Search, Globe, ChevronDown, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
 interface WikipediaPageLayoutProps {
@@ -37,8 +37,7 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
   const [textSize, setTextSize] = useState<TextSize>('standard');
   const [width, setWidth] = useState<Width>('standard');
   const [activeTab, setActiveTab] = useState<ActiveTab>('article');
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [contextDropdownOpen, setContextDropdownOpen] = useState(false);
+  const [sidebarCollapsed] = useState(false);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(['contents']));
 
   // Load preferences from localStorage
@@ -46,8 +45,6 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
     const savedTheme = localStorage.getItem('wiki-theme') as Theme;
     const savedTextSize = localStorage.getItem('wiki-text-size') as TextSize;
     const savedWidth = localStorage.getItem('wiki-width') as Width;
-    
-    console.log('Loading from localStorage:', { savedTheme, savedTextSize, savedWidth }); // Debug log
     
     if (savedTheme) setTheme(savedTheme);
     if (savedTextSize) setTextSize(savedTextSize);
@@ -70,31 +67,26 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
   // Theme handling
   useEffect(() => {
     const root = document.documentElement;
-    console.log('Theme changed to:', theme); // Debug log
+    
+    // Clear any existing theme classes first
+    root.classList.remove('dark');
     
     if (theme === 'auto') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       const applyTheme = () => {
         if (mediaQuery.matches) {
-          console.log('Auto theme: applying dark'); // Debug log
           root.classList.add('dark');
         } else {
-          console.log('Auto theme: applying light'); // Debug log
           root.classList.remove('dark');
         }
       };
       applyTheme();
       mediaQuery.addEventListener('change', applyTheme);
       return () => mediaQuery.removeEventListener('change', applyTheme);
-    } else {
-      if (theme === 'dark') {
-        console.log('Manual theme: applying dark'); // Debug log
-        root.classList.add('dark');
-      } else {
-        console.log('Manual theme: applying light'); // Debug log
-        root.classList.remove('dark');
-      }
+    } else if (theme === 'dark') {
+      root.classList.add('dark');
     }
+    // For 'light' theme, we just leave the dark class removed
   }, [theme]);
 
   return (
