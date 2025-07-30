@@ -33,21 +33,40 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
   relatedPages = []
 }) => {
   // User preferences state
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme, setTheme] = useState<Theme>('dark');
   const [textSize, setTextSize] = useState<TextSize>('standard');
   const [width, setWidth] = useState<Width>('standard');
   const [activeTab, setActiveTab] = useState<ActiveTab>('article');
   const [sidebarCollapsed] = useState(false);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(['contents']));
 
-  // Load preferences from localStorage
+  // Load preferences from localStorage and apply initial theme
   useEffect(() => {
     const savedTheme = localStorage.getItem('wiki-theme') as Theme;
     const savedTextSize = localStorage.getItem('wiki-text-size') as TextSize;
     const savedWidth = localStorage.getItem('wiki-width') as Width;
     
-    // If no saved theme, default to light
-    setTheme(savedTheme || 'light');
+    // Set theme (default to dark if none saved)
+    const initialTheme = savedTheme || 'dark';
+    setTheme(initialTheme);
+    
+    // Apply theme immediately to avoid flash
+    const root = document.documentElement;
+    root.classList.remove('dark');
+    if (initialTheme === 'dark') {
+      root.classList.add('dark');
+      root.style.colorScheme = 'dark';
+    } else if (initialTheme === 'light') {
+      root.style.colorScheme = 'light';
+    } else if (initialTheme === 'auto') {
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        root.classList.add('dark');
+        root.style.colorScheme = 'dark';
+      } else {
+        root.style.colorScheme = 'light';
+      }
+    }
+    
     if (savedTextSize) setTextSize(savedTextSize);
     if (savedWidth) setWidth(savedWidth);
   }, []);
@@ -69,27 +88,35 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
   useEffect(() => {
     const root = document.documentElement;
     
-    // Always clear any existing theme classes first
+    console.log('Applying theme:', theme); // Debug log
+    
+    // Always start fresh
     root.classList.remove('dark');
     
     if (theme === 'auto') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       const applyTheme = () => {
-        root.classList.remove('dark'); // Clear first
+        root.classList.remove('dark');
         if (mediaQuery.matches) {
+          console.log('Auto: system is dark, applying dark theme');
           root.classList.add('dark');
+          root.style.colorScheme = 'dark';
+        } else {
+          console.log('Auto: system is light, applying light theme');
+          root.style.colorScheme = 'light';
         }
       };
       applyTheme();
       mediaQuery.addEventListener('change', applyTheme);
       return () => mediaQuery.removeEventListener('change', applyTheme);
     } else if (theme === 'dark') {
+      console.log('Manual: applying dark theme');
       root.classList.add('dark');
+      root.style.colorScheme = 'dark';
+    } else {
+      console.log('Manual: applying light theme');
+      root.style.colorScheme = 'light';
     }
-    // For 'light' theme, dark class stays removed
-    
-    // Force a style recalculation
-    root.style.colorScheme = theme === 'dark' ? 'dark' : 'light';
   }, [theme]);
 
   return (
