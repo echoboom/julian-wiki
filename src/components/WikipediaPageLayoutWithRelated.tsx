@@ -87,16 +87,22 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
   // Theme handling
   useEffect(() => {
     const root = document.documentElement;
+    const body = document.body;
+    
+    console.log('Theme switching to:', theme);
     
     // Always start fresh
     root.classList.remove('dark');
+    body.classList.remove('dark');
     
     if (theme === 'auto') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       const applyTheme = () => {
         root.classList.remove('dark');
+        body.classList.remove('dark');
         if (mediaQuery.matches) {
           root.classList.add('dark');
+          body.classList.add('dark');
           root.style.colorScheme = 'dark';
         } else {
           root.style.colorScheme = 'light';
@@ -107,19 +113,13 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
       return () => mediaQuery.removeEventListener('change', applyTheme);
     } else if (theme === 'dark') {
       root.classList.add('dark');
+      body.classList.add('dark');
       root.style.colorScheme = 'dark';
     } else {
       root.style.colorScheme = 'light';
     }
     
-    // Debug background colors
-    setTimeout(() => {
-      const body = document.body;
-      console.log('Theme:', theme);
-      console.log('Root classes:', root.className);
-      console.log('Body computed background:', window.getComputedStyle(body).backgroundColor);
-      console.log('Body computed color:', window.getComputedStyle(body).color);
-    }, 100);
+    console.log('Applied classes - Root:', root.className, 'Body:', body.className);
   }, [theme]);
 
   return (
