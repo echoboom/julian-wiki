@@ -1,18 +1,31 @@
 import WikipediaPageLayoutWithRelated from '@/components/WikipediaPageLayoutWithRelated';
 import MDXProvider from '@/components/MDXProvider';
-import { getContentBySlug, generateTableOfContents, getRelatedContent } from '@/lib/content';
+import { getContentBySlug, generateTableOfContents, getAllContentSlugs, getRelatedContent } from '@/lib/content';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { notFound } from 'next/navigation';
 
-export default function Home() {
-  const content = getContentBySlug('julian-picaza');
+interface PageProps {
+  params: Promise<{ slug: string }>;
+}
+
+// Generate static params for known content
+export async function generateStaticParams() {
+  const slugs = getAllContentSlugs();
+  return slugs.map((slug) => ({
+    slug,
+  }));
+}
+
+export default async function SlugPage({ params }: PageProps) {
+  const { slug } = await params;
+  const content = getContentBySlug(slug);
   
   if (!content) {
     notFound();
   }
 
   const tableOfContents = generateTableOfContents(content.content);
-  const relatedContent = getRelatedContent(content.metadata.tags || [], 'julian-picaza');
+  const relatedContent = getRelatedContent(content.metadata.tags || [], slug);
 
   return (
     <MDXProvider>
