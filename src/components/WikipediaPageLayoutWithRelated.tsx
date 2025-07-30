@@ -126,84 +126,105 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
       </header>
       
       {/* Right Sidebar - Wikipedia-style Controls */}
-      <div className="fixed top-20 right-4 z-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4 w-48">
-        <div className="space-y-4">
-          {/* Theme Control */}
-          <div>
-            <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Appearance
-            </label>
-            <div className="flex items-center space-x-1">
-              <button
-                onClick={() => setTheme('light')}
-                className={`p-1.5 rounded ${theme === 'light' ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
-                title="Light mode"
-              >
-                <Sun className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => setTheme('auto')}
-                className={`p-1.5 rounded ${theme === 'auto' ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
-                title="Automatic (system)"
-              >
-                <Monitor className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => setTheme('dark')}
-                className={`p-1.5 rounded ${theme === 'dark' ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
-                title="Dark mode"
-              >
-                <Moon className="w-4 h-4" />
-              </button>
-            </div>
+      <div className="fixed top-20 right-4 z-40 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 shadow-sm p-3 w-44 text-xs">
+        {/* Text Section */}
+        <div className="mb-4">
+          <div className="text-gray-700 dark:text-gray-300 font-normal mb-1.5">Text</div>
+          <div className="flex gap-1">
+            <button
+              onClick={() => setTextSize('small')}
+              className={`px-1.5 py-0.5 text-xs border ${
+                textSize === 'small' 
+                  ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-300' 
+                  : 'bg-white border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:text-gray-300'
+              }`}
+            >
+              A
+            </button>
+            <button
+              onClick={() => setTextSize('standard')}
+              className={`px-1.5 py-0.5 text-xs border ${
+                textSize === 'standard' 
+                  ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-300' 
+                  : 'bg-white border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:text-gray-300'
+              }`}
+            >
+              A
+            </button>
+            <button
+              onClick={() => setTextSize('large')}
+              className={`px-1.5 py-0.5 text-sm border ${
+                textSize === 'large' 
+                  ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-300' 
+                  : 'bg-white border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:text-gray-300'
+              }`}
+            >
+              A
+            </button>
           </div>
+        </div>
 
-          {/* Text Size Control */}
-          <div>
-            <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Text size
-            </label>
-            <div className="flex items-center space-x-1">
-              <button
-                onClick={() => setTextSize('small')}
-                className={`px-2 py-1 text-xs rounded ${textSize === 'small' ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
-              >
-                Small
-              </button>
-              <button
-                onClick={() => setTextSize('standard')}
-                className={`px-2 py-1 text-xs rounded ${textSize === 'standard' ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
-              >
-                Standard
-              </button>
-              <button
-                onClick={() => setTextSize('large')}
-                className={`px-2 py-1 text-xs rounded ${textSize === 'large' ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
-              >
-                Large
-              </button>
-            </div>
+        {/* Width Section */}
+        <div className="mb-4">
+          <div className="text-gray-700 dark:text-gray-300 font-normal mb-1.5">Width</div>
+          <div className="flex gap-1">
+            <button
+              onClick={() => setWidth('standard')}
+              className={`px-2 py-0.5 text-xs border ${
+                width === 'standard' 
+                  ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-300' 
+                  : 'bg-white border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:text-gray-300'
+              }`}
+            >
+              Standard
+            </button>
+            <button
+              onClick={() => setWidth('wide')}
+              className={`px-2 py-0.5 text-xs border ${
+                width === 'wide' 
+                  ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-300' 
+                  : 'bg-white border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:text-gray-300'
+              }`}
+            >
+              Wide
+            </button>
           </div>
+        </div>
 
-          {/* Width Control */}
-          <div>
-            <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Width
-            </label>
-            <div className="flex items-center space-x-1">
-              <button
-                onClick={() => setWidth('standard')}
-                className={`px-2 py-1 text-xs rounded ${width === 'standard' ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
-              >
-                Standard
-              </button>
-              <button
-                onClick={() => setWidth('wide')}
-                className={`px-2 py-1 text-xs rounded ${width === 'wide' ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
-              >
-                Wide
-              </button>
-            </div>
+        {/* Color Section */}
+        <div>
+          <div className="text-gray-700 dark:text-gray-300 font-normal mb-1.5">Color (automated)</div>
+          <div className="flex gap-1">
+            <button
+              onClick={() => setTheme('auto')}
+              className={`px-2 py-0.5 text-xs border ${
+                theme === 'auto' 
+                  ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-300' 
+                  : 'bg-white border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:text-gray-300'
+              }`}
+            >
+              Auto
+            </button>
+            <button
+              onClick={() => setTheme('light')}
+              className={`px-2 py-0.5 text-xs border ${
+                theme === 'light' 
+                  ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-300' 
+                  : 'bg-white border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:text-gray-300'
+              }`}
+            >
+              Light
+            </button>
+            <button
+              onClick={() => setTheme('dark')}
+              className={`px-2 py-0.5 text-xs border ${
+                theme === 'dark' 
+                  ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-300' 
+                  : 'bg-white border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:text-gray-300'
+              }`}
+            >
+              Dark
+            </button>
           </div>
         </div>
       </div>
@@ -345,7 +366,12 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
                     <ul>
                       {metadata.externalLinks.map((link, index) => (
                         <li key={index}>
-                          <a href={link.url} target="_blank" rel="noopener noreferrer">
+                          <a 
+                            href={link.url} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-blue-600 dark:text-blue-400 hover:underline"
+                          >
                             {link.title}
                           </a>
                         </li>
