@@ -123,12 +123,12 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
   }, [theme]);
 
   return (
-    <div className={`min-h-screen bg-white dark:bg-gray-900 ${width === 'wide' ? 'max-w-none' : 'max-w-6xl'} mx-auto ${
+    <div className={`min-h-screen ${theme === 'dark' ? 'bg-gray-900' : theme === 'light' ? 'bg-white' : 'bg-white dark:bg-gray-900'} ${width === 'wide' ? 'max-w-none' : 'max-w-6xl'} mx-auto ${
       textSize === 'small' ? 'text-sm' : 
       textSize === 'large' ? 'text-lg' : 'text-base'
     }`}>
       {/* Header */}
-      <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+      <header className={`${theme === 'dark' ? 'bg-gray-900' : theme === 'light' ? 'bg-white' : 'bg-white dark:bg-gray-900'} border-b border-gray-200 dark:border-gray-700`}>
         <div className="flex items-center justify-between px-4 py-2">
           <div className="flex items-center space-x-6">
             <Link href="/" className="flex items-center space-x-2">
@@ -161,7 +161,7 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
       <div className="flex">
         {/* Sidebar */}
         {!sidebarCollapsed && (
-          <aside className={`w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 min-h-screen ${
+          <aside className={`w-64 ${theme === 'dark' ? 'bg-gray-900' : theme === 'light' ? 'bg-white' : 'bg-white dark:bg-gray-900'} border-r border-gray-200 dark:border-gray-700 min-h-screen ${
             textSize === 'small' ? 'text-sm' : 
             textSize === 'large' ? 'text-lg' : 'text-base'
           }`}>
@@ -335,7 +335,7 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
         </main>
 
         {/* Right Sidebar - Wikipedia-style Appearance Controls */}
-        <aside className="w-48 bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-700 min-h-screen">
+        <aside className={`w-48 ${theme === 'dark' ? 'bg-gray-900' : theme === 'light' ? 'bg-white' : 'bg-white dark:bg-gray-900'} border-l border-gray-200 dark:border-gray-700 min-h-screen`}>
           <div className="p-4 sticky top-20">
             <div className="space-y-4">
               <div>
