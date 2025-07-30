@@ -2,6 +2,7 @@
 
 import { MDXProvider as BaseMDXProvider } from '@mdx-js/react';
 import { ReactNode } from 'react';
+import ThemeInfobox from './ThemeInfobox';
 
 interface MDXProviderProps {
   children: ReactNode;
@@ -121,6 +122,9 @@ const components = {
   td: (props: any) => (
     <td className="border border-gray-200 dark:border-gray-700 px-4 py-2" {...props} />
   ),
+  
+  // Theme-aware components
+  ThemeInfobox: ThemeInfobox,
 };
 
 export default function MDXProvider({ children }: MDXProviderProps) {

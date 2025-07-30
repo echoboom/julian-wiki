@@ -215,7 +215,7 @@ const WikipediaPageLayoutWithRelated: React.FC<WikipediaPageLayoutProps> = ({
           <div className="p-6">
             {/* Article header */}
             <div className="mb-6">
-              <h1 className={`font-serif text-gray-900 dark:text-white mb-2 ${
+              <h1 className={`font-serif ${theme === 'dark' ? 'text-white' : theme === 'light' ? 'text-gray-900' : 'text-gray-900 dark:text-white'} mb-2 ${
                 textSize === 'small' ? 'text-2xl' : 
                 textSize === 'large' ? 'text-4xl' : 'text-3xl'
               }`}>
